@@ -109,30 +109,31 @@ function downloadAudio() {
   let selection = sheet.getSelection().getActiveRange();
 
   // command to make a temporary folder
-  let commands = "cd /tmp; mkdir mandarin-audio; cd ./mandarin-audio;" + "<br />";
+  let commands = "cd /tmp; mkdir mandarin-audio; cd ./mandarin-audio;" + "\n";
   for (let rangeRow = selection.getRow(); rangeRow <= selection.getLastRow(); rangeRow++)
   {
       let traditional = sheet.getRange(rangeRow, TRADITIONAL_COL).getValue();
       let english = sheet.getRange(rangeRow, ENGLISH_COL).getValue();
       // curl command to download the English audio
       commands += "curl -L 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q="
-      + encodeURIComponent(english).replace(/'/g, "%27") + "' > " + (rangeRow*3-2) + ".mp3" + "<br />";
+      + encodeURIComponent(english).replace(/'/g, "%27") + "' > " + (rangeRow*3-2) + ".mp3" + "\n";
       // curl command to download the Chinese audio
       commands += "curl -L 'https://translate.google.com/translate_tts?ie=UTF-8&tl=zh-TW&client=tw-ob&q="
-      + encodeURIComponent(traditional).replace(/'/g, "%27") + "' > " + (rangeRow*3-1) + ".mp3" + "<br />";
+      + encodeURIComponent(traditional).replace(/'/g, "%27") + "' > " + (rangeRow*3-1) + ".mp3" + "\n";
       // sox command to generate silence
-      commands += "sox -n -r 24000 -c 1 -b 16 " + (rangeRow*3) + ".wav trim 0.0 1" + "<br />";
+      commands += "sox -n -r 24000 -c 1 -b 16 " + (rangeRow*3) + ".wav trim 0.0 1" + "\n";
   }
   // sox command to convert mp3s to wav
-  commands += 'for i in *.mp3; do sox "$i" -r 24000 -c 1 -b 16 "$(basename -s .mp3 "$i").wav"; done' + '<br />'
+  commands += 'for i in *.mp3; do sox "$i" -r 24000 -c 1 -b 16 "$(basename -s .mp3 "$i").wav"; done' + "\n"
   // sox command to merge the audio
-  commands += 'sox $(ls *.wav | sort -n) ~/Downloads/Audio.wav' + "<br />"
+  commands += 'sox $(ls *.wav | sort -n) ~/Downloads/Audio.wav' + "\n"
   // Move temporary files to trash
   commands += "cd ..; mv ./mandarin-audio ~/.Trash";
 
   let output = "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" />"
   + "<p>These command are meant to be run in Terminal on a Mac! The selected rows will be exported to a single audio file.<br />Note: Requires <a href=\"https://formulae.brew.sh/formula/sox\">sox t installed</a>.<br /><strong>ALWAYS BE CAREFUL what you paste into Terminal.</strong></p>"
-  + "<pre>" + commands + "</pre>";
+  + "<textarea readonly=\"true\" style=\"font-family:monospace; width:100%; height:150px; font-size: 9pt; overflow: auto; white-space: pre-wrap;\">" + commands + "</textarea>"
+  + "<input type=\"button\" value=\"Copy to clipboard\" onClick=\"this.select(); document.execCommand('copy');\" />"
   let html = HtmlService.createHtmlOutput(output).setSandboxMode(HtmlService.SandboxMode.IFRAME);
   SpreadsheetApp.getUi().showModalDialog(html, "Download selection as audio file");
 }
