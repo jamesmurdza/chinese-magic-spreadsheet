@@ -1,5 +1,9 @@
 # Chinese-English Magic Spreadsheet 🪄
 
-This is a spreadsheet for studying Chinese which autofills Chinese-English translation as well as traditional and simplified characters and pinyin. There is an experimental feature for audio download from Google Translate.
+This is a spreadsheet for studying Chinese which autofills Chinese-English translation as well as traditional and simplified characters and pinyin. It looks like this:
 
-Live copy is available at: https://tinyurl.com/chinese-magic-sheet
+![Screenshot](./Screenshot.gif)
+
+There is also an experimental feature to download a selection as audio from Google Translate.
+
+Latest version is available to install from: https://tinyurl.com/chinese-magic-sheet
