@@ -131,9 +131,9 @@ function downloadAudio() {
   commands += "cd ..; mv ./mandarin-audio ~/.Trash";
 
   let output = "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css\" />"
-  + "<p>These command are meant to be run in Terminal on a Mac! The selected rows will be exported to a single audio file.<br />Note: Requires <a href=\"https://formulae.brew.sh/formula/sox\">sox t installed</a>.<br /><strong>ALWAYS BE CAREFUL what you paste into Terminal.</strong></p>"
-  + "<textarea readonly=\"true\" style=\"font-family:monospace; width:100%; height:150px; font-size: 9pt; overflow: auto; white-space: pre-wrap;\">" + commands + "</textarea>"
-  + "<input type=\"button\" value=\"Copy to clipboard\" onClick=\"this.select(); document.execCommand('copy');\" />"
+  + "<p>These command are meant to be run in Terminal on a Mac! The selected rows will be exported to a single audio file in your Downloads folder.<br />Note: Requires <a href=\"https://formulae.brew.sh/formula/sox\">sox to be installed</a>.<br /><strong>ALWAYS BE CAREFUL what you paste into Terminal.</strong></p>"
+  + "<textarea readonly=\"true\" style=\"font-family:monospace; width:100%; height:150px; font-size: 9pt;  overflow: auto; white-space: pre-wrap;\">" + commands + "</textarea>"
+  + "<input type=\"button\" value=\"Copy to clipboard\" onClick=\"document.getElementsByTagName('textarea')[0].select(); document.execCommand('copy');\" />"
   let html = HtmlService.createHtmlOutput(output).setSandboxMode(HtmlService.SandboxMode.IFRAME);
   SpreadsheetApp.getUi().showModalDialog(html, "Download selection as audio file");
 }
